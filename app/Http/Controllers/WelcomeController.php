@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
+use App\Models\Room; // Import the Room model
 use Illuminate\Http\Request;
 
 class WelcomeController extends Controller
 {
     public function __invoke()
     {
-        $articles = Article::published()->take(2)->get()->sortByDesc('published_at');
+        // Fetch all rooms from the database
+        $rooms = Room::all(); // You can use pagination like Room::paginate(6) if needed
 
-        return view('welcome')->with('articles', $articles);
-        //return view('welcome', compact('articles'));
+        // Return the view with the rooms data
+        return view('welcome', compact('rooms'));
     }
 }
