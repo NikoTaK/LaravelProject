@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('image_url')->nullable();
             $table->boolean('is_featured')->default(false);
             $table->timestamps();
+            $table->string('image_url')->nullable(); // Add this line
         });
     }
 

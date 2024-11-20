@@ -13,10 +13,16 @@ class RoomSeeder extends Seeder
             'name' => 'Deluxe Suite',
             'description' => 'Luxurious suite with ocean view',
             'price' => 299.99,
-            'image_url' => 'images/rooms/deluxe-suite.jpg',
+            'image_url' => 'https://via.placeholder.com/300x200',
             'is_featured' => true
         ]);
 
-        // Add more rooms as needed
+        Room::create([
+            'name' => 'Standard Room',
+            'description' => 'Comfortable room with city view',
+            'price' => 199.99,
+            'image_url' => 'https://via.placeholder.com/300x200',
+            'is_featured' => false
+        ]);
     }
 }

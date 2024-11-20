@@ -11,8 +11,7 @@ use App\Models\Review;
 // Welcome route
 Route::get('/', function () {
     $featuredRooms = Room::where('is_featured', true)->take(3)->get();
-    $latestReviews = Review::with('user')->latest()->take(4)->get();
-    
+    $latestReviews = collect([]); // Empty collection for now
     return view('welcome', compact('featuredRooms', 'latestReviews'));
 })->name('home');
 
