@@ -5,9 +5,16 @@ use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\RoomController;  // Add the RoomController
 use App\Http\Controllers\ReservationController;  // Add the ReservationController
 use Illuminate\Support\Facades\Route;
+use App\Models\Room;
+use App\Models\Review;
 
 // Welcome route
-Route::get('/', WelcomeController::class)->name('welcome');
+Route::get('/', function () {
+    $featuredRooms = Room::where('is_featured', true)->take(3)->get();
+    $latestReviews = Review::with('user')->latest()->take(4)->get();
+    
+    return view('welcome', compact('featuredRooms', 'latestReviews'));
+})->name('home');
 
 // Article routes
 Route::get('articles', [\App\Http\Controllers\ArticleController::class, 'index'])->name('articles.index');
@@ -27,11 +34,11 @@ Route::middleware('auth')->group(function () {
 
 // Room routes
 Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');  // List rooms
-Route::get('/rooms/{id}', [RoomController::class, 'show'])->name('rooms.show');  // View specific room
+Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');  // View specific room
 
 // Reservation routes
 Route::middleware('auth')->group(function () {
-    Route::get('/reservations/create/{room_id}', [ReservationController::class, 'create'])->name('reservations.create');  // Reservation form
+    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');  // Reservation form
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');  // Store reservation
 });
 

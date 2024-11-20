@@ -2,26 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Room;
 use Illuminate\Database\Seeder;
 
 class RoomSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run()
+    public function run(): void
     {
-        \App\Models\Room::create([
+        Room::create([
             'name' => 'Deluxe Suite',
-            'description' => 'A spacious suite with a king-size bed and stunning views.',
-            'price' => 200.00,
+            'description' => 'Luxurious suite with ocean view',
+            'price' => 299.99,
+            'image_url' => 'images/rooms/deluxe-suite.jpg',
+            'is_featured' => true
         ]);
-    
-        \App\Models\Room::create([
-            'name' => 'Standard Room',
-            'description' => 'A cozy room with basic amenities.',
-            'price' => 100.00,
-        ]);
+
+        // Add more rooms as needed
     }
 }
