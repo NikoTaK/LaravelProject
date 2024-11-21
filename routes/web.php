@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
 // Room routes
 Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');  // List rooms
 Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');  // View specific room
+Route::resource('rooms', RoomController::class);
 
 // Reservation routes
 Route::middleware('auth')->group(function () {

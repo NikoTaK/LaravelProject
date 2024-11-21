@@ -14,7 +14,7 @@ class Room extends Model
 
     // Define fillable attributes (the columns you can mass-assign)
     protected $fillable = [
-        'name', 'description', 'price', 
+        'name', 'description', 'price', 'image', 
     ];
 
     // Optionally, you can define relationships if you have other models like reservations
