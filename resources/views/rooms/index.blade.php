@@ -1,33 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casa Bella - Our Rooms</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-    <nav class="bg-white shadow">
-        <div class="container mx-auto px-6 py-3">
-            <div class="flex justify-between items-center">
-                <div class="text-xl font-semibold">
-                    <a href="/">Casa Bella</a>
-                </div>
-                <div class="space-x-4">
-                    <a href="/">Home</a>
-                    <a href="/rooms">Rooms</a>
-                    <a href="/reservations/create">Book Now</a>
-                    @auth
-                        <a href="/dashboard">Dashboard</a>
-                    @else
-                        <a href="/login">Login</a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container mx-auto px-4 py-8">
+<x-app-layout>
+     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-8">Our Rooms</h1>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -59,5 +31,4 @@
             <p class="text-center">© {{ date('Y') }} Casa Bella. All rights reserved.</p>
         </div>
     </footer>
-</body>
-</html>
+</x-app-layout>

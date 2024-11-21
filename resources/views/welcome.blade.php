@@ -1,35 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Casa Bella - Welcome</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body>
-    <nav class="bg-white shadow fixed w-full z-50">
-        <div class="container mx-auto px-6">
-            <div class="flex justify-between items-center h-24">
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center">
-                        <img src="{{ asset('images/logo-casabella.png') }}" 
-                             alt="Casa Bella Logo" 
-                             class="h-20 w-auto">
-                    </a>
-                </div>
-                <div class="space-x-8">
-                    <a href="/" class="text-gray-700 hover:text-primary transition-colors text-lg">Home</a>
-                    <a href="/rooms" class="text-gray-700 hover:text-primary transition-colors text-lg">Rooms</a>
-                    <a href="/reservations/create" class="text-gray-700 hover:text-primary transition-colors text-lg">Book Now</a>
-                    @auth
-                        <a href="/dashboard" class="text-gray-700 hover:text-primary transition-colors text-lg">Dashboard</a>
-                    @else
-                        <a href="/login" class="text-gray-700 hover:text-primary transition-colors text-lg">Login</a>
-                    @endauth
-                </div>
-            </div>
-        </div>
-    </nav>
+<x-app-layout>
 
     <main>
         <!-- Hero Section -->
@@ -50,25 +19,27 @@
             </div>
         </div>
 
+
+
         <!-- Featured Rooms -->
         <div class="container mx-auto px-6 py-24">
             <h2 class="text-4xl font-bold mb-12 text-center">Featured Rooms</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
                 @foreach($featuredRooms as $room)
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
-                        <img src="{{ asset('images/deluxesuite.png') }}" 
-                             class="w-full h-64 object-cover" 
-                             alt="{{ $room->name }}">
-                        <div class="p-8">
-                            <h3 class="text-2xl font-semibold mb-3">{{ $room->name }}</h3>
-                            <p class="text-gray-600 mb-6">{{ Str::limit($room->description, 100) }}</p>
-                            <p class="text-primary text-2xl font-bold mb-6">${{ $room->price }} / night</p>
-                            <a href="{{ route('rooms.show', $room) }}" 
-                               class="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors">
-                                View Details
-                            </a>
-                        </div>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:-translate-y-1 transition-transform duration-300">
+                    <img src="{{ asset('images/deluxesuite.png') }}"
+                        class="w-full h-64 object-cover"
+                        alt="{{ $room->name }}">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-semibold mb-3">{{ $room->name }}</h3>
+                        <p class="text-gray-600 mb-6">{{ Str::limit($room->description, 100) }}</p>
+                        <p class="text-primary text-2xl font-bold mb-6">${{ $room->price }} / night</p>
+                        <a href="{{ route('rooms.show', $room) }}"
+                            class="inline-block bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors">
+                            View Details
+                        </a>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>
@@ -79,33 +50,25 @@
                 <h2 class="text-4xl font-bold mb-12 text-center">What Our Guests Say</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     @forelse($latestReviews as $review)
-                        <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                            <div class="flex items-center mb-6">
-                                <div class="w-14 h-14 rounded-full bg-gray-200 mr-4"></div>
-                                <div>
-                                    <h4 class="font-semibold text-lg">{{ $review->user->name }}</h4>
-                                    <div class="text-yellow-400 text-lg">
-                                        @for($i = 0; $i < $review->rating; $i++)
-                                            ★
+                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
+                        <div class="flex items-center mb-6">
+                            <div class="w-14 h-14 rounded-full bg-gray-200 mr-4"></div>
+                            <div>
+                                <h4 class="font-semibold text-lg">{{ $review->user->name }}</h4>
+                                <div class="text-yellow-400 text-lg">
+                                    @for($i = 0; $i < $review->rating; $i++)
+                                        ★
                                         @endfor
-                                    </div>
                                 </div>
                             </div>
-                            <p class="text-gray-600 leading-relaxed">{{ Str::limit($review->comment, 150) }}</p>
                         </div>
+                        <p class="text-gray-600 leading-relaxed">{{ Str::limit($review->comment, 150) }}</p>
+                    </div>
                     @empty
-                        <p class="text-gray-500 text-center col-span-4">No reviews available yet.</p>
+                    <p class="text-gray-500 text-center col-span-4">No reviews available yet.</p>
                     @endforelse
                 </div>
             </div>
         </div>
     </main>
-
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="container mx-auto px-6">
-            <p class="text-center text-gray-400">© {{ date('Y') }} Casa Bella. All rights reserved.</p>
-        </div>
-    </footer>
-</body>
-</html>
-
+</x-app-layout>
