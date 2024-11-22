@@ -47,14 +47,4 @@ class User extends Authenticatable
     }
 
     // Model relationships --------
-    public function articles()
-    {
-        return $this->hasMany(Article::class, 'author_id');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class, 'user_id');
-    }
-
 }

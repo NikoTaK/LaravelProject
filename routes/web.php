@@ -1,9 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\RoomController;  // Add the RoomController
-use App\Http\Controllers\ReservationController;  // Add the ReservationController
+use App\Http\Controllers\RoomController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Room;
 use App\Models\Review;
@@ -11,32 +10,28 @@ use App\Models\Review;
 // Welcome route
 Route::get('/', function () {
     $featuredRooms = Room::where('is_featured', true)->take(3)->get();
-    $latestReviews = collect([]); // Empty collection for now
+    $latestReviews = collect([]); // Placeholder for reviews
     return view('welcome', compact('featuredRooms', 'latestReviews'));
 })->name('home');
 
-// Dashboard route
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Authenticated routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-// Profile routes
-Route::middleware('auth')->group(function () {
+    // Profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Reservation routes
+    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
+    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 });
 
 // Room routes
-Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');  // List rooms
-Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');  // View specific room
 Route::resource('rooms', RoomController::class);
 
-// Reservation routes
-Route::middleware('auth')->group(function () {
-    Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');  // Reservation form
-    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');  // Store reservation
-});
-
-require __DIR__.'/auth.php';
-
+require __DIR__ . '/auth.php';
