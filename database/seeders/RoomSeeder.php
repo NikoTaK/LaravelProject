@@ -9,19 +9,28 @@ class RoomSeeder extends Seeder
 {
     public function run(): void
     {
-        Room::create([
-            'name' => 'Deluxe Suite',
-            'description' => 'Luxurious suite with ocean view',
-            'price' => 299.99,
-            'image' => '/images/deluxesuite.png',
-            'is_featured' => true
-        ]);
 
         Room::create([
             'name' => 'Standard Room',
             'description' => 'Comfortable room with city view',
-            'price' => 199.99,
-            'image' => 'https://via.placeholder.com/300x200',
+            'price' => 150,
+            'image' => '/images/standardroom.png',
+            'is_featured' => true
+        ]);
+
+        Room::create([
+            'name' => 'Superior Room',
+            'description' => 'A spacious and elegantly designed room',
+            'price' => 250,
+            'image' => '/images/superiorroom.png',
+            'is_featured' => true
+        ]);
+        
+        Room::create([
+            'name' => 'Deluxe Suite',
+            'description' => 'Luxurious suite with ocean view',
+            'price' => 400,
+            'image' => '/images/deluxesuit.png',
             'is_featured' => true
         ]);
     }
