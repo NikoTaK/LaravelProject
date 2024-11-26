@@ -14,7 +14,7 @@
                 <span class="font-semibold">Number of Guests:</span> {{ $reservation->guests }}
             </div>
             <div class="text-lg mb-4">
-                <span class="font-semibold">Status:</span> <strong>{{ $reservation->status }}</strong>
+                <span class="font-semibold">Status: </span>{{ $reservation->status }}
             </div>
 
             @if($reservation->special_requests)

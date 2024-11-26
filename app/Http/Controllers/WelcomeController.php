@@ -10,7 +10,7 @@ class WelcomeController extends Controller
     public function __invoke()
     {
         // Fetch all rooms from the database
-        $rooms = Room::all(); // You can use pagination like Room::paginate(6) if needed
+        $rooms = Room::all();
 
         // Return the view with the rooms data
         return view('welcome', compact('rooms'));

@@ -36,45 +36,19 @@
         <!-- Latest Reviews -->
         <div class="container mx-auto px-6 py-12">
             <h2 class="text-4xl font-bold mb-12 text-center">What Our Guests Say</h2>
-    
+
             <!-- Display Latest Reviews -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                @forelse($latestReviews as $review)
-                    <div class="bg-white p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow">
-                        <div class="flex items-center mb-6">
-                            <div class="w-14 h-14 rounded-full bg-gray-200 mr-4"></div>
-                            <div>
-                                <h4 class="font-semibold text-lg">{{ $review->user->name }}</h4>
-                                <div class="text-yellow-400 text-lg">
-                                    @for ($i = 0; $i < $review->rating; $i++)
-                                        ★
-                                    @endfor
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 leading-relaxed">{{ Str::limit($review->comment, 150) }}</p>
-            
-                        @if ($review->user_id === Auth::id())
-                            <!-- Delete Review Form -->
-                            <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" class="mt-4">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition-all z-10">
-                                    Delete Review
-                                </button>
-                            </form>
-                        @endif
-                    </div>
-                @empty
-                    <p class="text-gray-500 text-center col-span-4">No reviews available yet.</p>
-                @endforelse
+                @foreach ($latestReviews as $review)
+                    <x-review-card :review="$review" />
+                @endforeach
             </div>
-            
 
             <!-- Prompt to Log in for Review Submission -->
             <div class="mt-16 text-center">
                 @guest
-                    <p class="text-gray-500">You need to <a href="{{ route('login') }}" class="text-primary hover:underline">log in</a> to submit a review for a room.</p>
+                    <p class="text-gray-500">You need to <a href="{{ route('login') }}"
+                            class="text-primary hover:underline">log in</a> to submit a review for a room.</p>
                 @endguest
             </div>
         </div>
