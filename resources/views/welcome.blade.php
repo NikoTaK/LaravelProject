@@ -1,5 +1,4 @@
 <x-app-layout>
-
     <main>
         <!-- Hero Section -->
         <div class="relative h-screen">
@@ -23,8 +22,6 @@
                 </div>
             </div>
         </div>
-
-
 
         <!-- Featured Rooms -->
         <div class="container mx-auto px-6 py-24">
@@ -56,42 +53,30 @@
                             </div>
                         </div>
                         <p class="text-gray-600 leading-relaxed">{{ Str::limit($review->comment, 150) }}</p>
+            
+                        @if ($review->user_id === Auth::id())
+                            <!-- Delete Review Form -->
+                            <form action="{{ route('reviews.destroy', $review->id) }}" method="POST" class="mt-4">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition-all z-10">
+                                    Delete Review
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 @empty
                     <p class="text-gray-500 text-center col-span-4">No reviews available yet.</p>
                 @endforelse
             </div>
-    
-            <!-- Review Submission Form -->
-            @auth
-                <div class="bg-gray-100 p-8 rounded-lg mt-16">
-                    <h3 class="text-2xl font-bold mb-4">Submit Your Review</h3>
-                    @if(session('success'))
-                        <p class="text-green-600 mb-4">{{ session('success') }}</p>
-                    @endif
-                    <form action="{{ route('reviews.store', ['room' => $room->id]) }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="room_id" value="{{ $room->id }}"> <!-- Pass the room_id -->
-                        <div class="mb-4">
-                            <label for="rating" class="block text-lg font-medium">Rating:</label>
-                            <select name="rating" id="rating" class="w-full p-2 border rounded">
-                                <option value="5">★★★★★ - Excellent</option>
-                                <option value="4">★★★★ - Good</option>
-                                <option value="3">★★★ - Average</option>
-                                <option value="2">★★ - Poor</option>
-                                <option value="1">★ - Terrible</option>
-                            </select>
-                        </div>
-                        <div class="mb-4">
-                            <label for="comment" class="block text-lg font-medium">Comment:</label>
-                            <textarea name="comment" id="comment" rows="4" class="w-full p-2 border rounded" placeholder="Write your review here..."></textarea>
-                        </div>
-                        <button type="submit" class="bg-primary text-black px-6 py-3 rounded-lg hover:bg-primary-dark transition-all">Submit Review</button>
-                    </form>
-                </div>
-            @else
-                <p class="mt-16 text-center text-gray-500">You need to <a href="{{ route('login') }}" class="text-primary hover:underline">log in</a> to submit a review.</p>
-            @endauth
+            
+
+            <!-- Prompt to Log in for Review Submission -->
+            <div class="mt-16 text-center">
+                @guest
+                    <p class="text-gray-500">You need to <a href="{{ route('login') }}" class="text-primary hover:underline">log in</a> to submit a review for a room.</p>
+                @endguest
+            </div>
         </div>
     </main>
 </x-app-layout>

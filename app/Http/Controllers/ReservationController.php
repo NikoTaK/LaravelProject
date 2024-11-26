@@ -52,4 +52,19 @@ class ReservationController extends Controller
 
         return view('reservations.show', compact('reservation'));
     }
+
+    public function destroy($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+
+        // Ensure the reservation belongs to the authenticated user
+        if ($reservation->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        $reservation->delete();
+
+        return redirect()->route('dashboard')->with('success', 'Reservation deleted successfully!');
+    }
+
 }

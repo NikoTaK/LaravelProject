@@ -22,7 +22,18 @@
                 <p class="text-gray-700 mb-4">{{ $reservation->special_requests }}</p>
             @endif
 
-            <a href="{{ route('dashboard') }}" class="text-blue-500 hover:underline">Back to Dashboard</a>
+            <div class="flex items-center space-x-4">
+                <a href="{{ route('dashboard') }}" class="text-blue-500 hover:underline">Back to Dashboard</a>
+                
+                <!-- Delete Button -->
+                <form action="{{ route('reservations.destroy', $reservation->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this reservation?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+                        Delete Reservation
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </x-app-layout>

@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
 });
 
 // Room routes
@@ -38,5 +39,7 @@ Route::resource('rooms', RoomController::class);
 // Review routes for viewing reviews and storing new reviews
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
 Route::post('/rooms/{room}/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
+Route::delete('/reviews/{review}', [ReviewController::class, 'destroy'])->middleware('auth')->name('reviews.destroy');
+
 
 require __DIR__ . '/auth.php';

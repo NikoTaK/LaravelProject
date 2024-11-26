@@ -39,13 +39,13 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="text-2xl font-bold mb-4">Quick Actions</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <a href="{{ route('profile.edit') }}" class="block bg-primary text-white p-6 rounded-lg shadow-lg hover:bg-primary-dark text-center">
+                        <a href="{{ route('profile.edit') }}" class="block bg-primary text-black p-6 rounded-lg shadow-lg hover:bg-primary-dark text-center">
                             Edit Profile
                         </a>
-                        <a href="{{ route('reservations.create') }}" class="block bg-primary text-white p-6 rounded-lg shadow-lg hover:bg-primary-dark text-center">
+                        <a href="{{ route('reservations.create') }}" class="block bg-primary text-black p-6 rounded-lg shadow-lg hover:bg-primary-dark text-center">
                             Make a Reservation
                         </a>
-                        <a href="{{ route('rooms.index') }}" class="block bg-primary text-white p-6 rounded-lg shadow-lg hover:bg-primary-dark text-center">
+                        <a href="{{ route('rooms.index') }}" class="block bg-primary text-black p-6 rounded-lg shadow-lg hover:bg-primary-dark text-center">
                             Browse Rooms
                         </a>
                     </div>
