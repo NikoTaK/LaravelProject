@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Room;
 use App\Models\Reservation;
+use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
 
 class ReservationController extends Controller
 {
@@ -16,9 +15,8 @@ class ReservationController extends Controller
         $rooms = Room::all(); // Retrieve all available rooms
         return view('reservations.create', compact('rooms'));
     }
-    
 
-    // Store a newly created reservation in the database
+    // Store a new reservation
     public function store(Request $request)
     {
         $request->validate([
@@ -28,7 +26,7 @@ class ReservationController extends Controller
             'guests' => 'required|integer|min:1',
             'special_requests' => 'nullable|string|max:500',
         ]);
-    
+
         Reservation::create([
             'user_id' => Auth::id(),
             'room_id' => $request->room_id,
@@ -38,8 +36,20 @@ class ReservationController extends Controller
             'special_requests' => $request->special_requests,
             'status' => 'Pending', // Initial status
         ]);
-    
-        return back()->with('success', 'Your reservation has been made successfully!');
+
+        return redirect()->route('dashboard')->with('success', 'Your reservation has been made successfully!');
     }
-    
+
+    // Show a specific reservation
+    public function show($id)
+    {
+        $reservation = Reservation::with('room')->findOrFail($id);
+
+        // Ensure the reservation belongs to the authenticated user
+        if ($reservation->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized access.');
+        }
+
+        return view('reservations.show', compact('reservation'));
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\DashboardController; // Import DashboardController
 use Illuminate\Support\Facades\Route;
 use App\Models\Room;
 use App\Models\Review;
@@ -18,9 +19,7 @@ Route::get('/', function () {
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,15 +29,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Reservation routes
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
-    
-    // Review routes for authenticated users
-    Route::post('/rooms/{room}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::get('/reservations/{reservation}', [ReservationController::class, 'show'])->name('reservations.show');
 });
 
 // Room routes
 Route::resource('rooms', RoomController::class);
 
-// Review routes for viewing reviews
+// Review routes for viewing reviews and storing new reviews
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+Route::post('/rooms/{room}/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
 
 require __DIR__ . '/auth.php';
