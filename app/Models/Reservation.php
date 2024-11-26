@@ -9,26 +9,25 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    // Define the table name if it's different from the default 'reservations'
-    // protected $table = 'reservations';
-
-    // Define the fillable attributes for mass assignment
     protected $fillable = [
-        'room_id',
         'user_id',
+        'room_id',
         'check_in',
         'check_out',
+        'guests',
+        'special_requests',
+        'status',
     ];
 
-    // Define relationships (e.g., a reservation belongs to a room)
+    // Relationship with Room model
     public function room()
     {
         return $this->belongsTo(Room::class);
     }
 
-    // You can define other relationships like user if needed:
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+    // Relationship with User model
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

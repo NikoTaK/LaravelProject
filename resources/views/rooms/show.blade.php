@@ -39,9 +39,9 @@
                         <textarea name="comment" id="comment" rows="4" class="w-full p-2 border rounded"
                             placeholder="Write your review here..." required></textarea>
                     </div>
-                    <button type="submit"
-                        class="bg-primary text-black px-6 py-3 rounded-lg hover:bg-primary-dark transition-all">Submit
-                        Review</button>
+                    <x-primary-button class="ms-3">
+                        {{ __('Submit Review') }}
+                    </x-primary-button>
                 </form>
             </div>
         @endauth
