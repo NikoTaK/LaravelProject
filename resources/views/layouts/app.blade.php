@@ -16,28 +16,33 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
                     <a href="/" class="flex items-center">
-                        <img src="{{ asset('images/logo-casabella.png') }}"
-                            alt="Casa Bella Logo"
-                            style="height: 140px; width: auto;">
+                        <img src="{{ asset('images/logo-casabella.png') }}" alt="Casa Bella Logo" style="height: 140px; width: auto;">
                     </a>
                 </div>
-                <div class="space-x-8">
+                <div class="flex items-center space-x-8">
                     <a href="/" class="text-gray-700 hover:text-primary transition-colors text-lg">Home</a>
                     <a href="/rooms" class="text-gray-700 hover:text-primary transition-colors text-lg">Rooms</a>
                     <a href="/reservations/create" class="text-gray-700 hover:text-primary transition-colors text-lg">Book Now</a>
+                    @guest
+                        <a href="/login" class="text-gray-700 hover:text-primary transition-colors text-lg">Login</a>
+                        <a href="/register" class="text-gray-700 hover:text-primary transition-colors text-lg">Sign Up</a>
+                    @endguest
                     @auth
-                    <a href="/dashboard" class="text-gray-700 hover:text-primary transition-colors text-lg">Dashboard</a>
-                    @else
-                    <a href="/login" class="text-gray-700 hover:text-primary transition-colors text-lg">Login</a>
+                        <a href="/dashboard" class="text-gray-700 hover:text-primary transition-colors text-lg">Dashboard</a>
+                        <form method="POST" action="{{ route('logout') }}" class="inline-block">
+                            @csrf
+                            <button type="submit" class="text-gray-700 hover:text-primary transition-colors text-lg">Logout</button>
+                        </form>
                     @endauth
                 </div>
             </div>
         </div>
     </nav>
+    
 
 
     <main>
-        {{$slot}}
+        {{ $slot }}
     </main>
 
     <footer class="bg-gray-800 text-white">

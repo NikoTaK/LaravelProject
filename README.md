@@ -1,5 +1,3 @@
-<p align="center"><img src="/Users/macbookpro/Desktop/hotelSite/public/images/casabella.png" width="100"></p>
-
 # Hotel Website project
 A Laravel-based website for a hotel Casa Bella.
 

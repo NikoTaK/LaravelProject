@@ -52,10 +52,12 @@ class RoomController extends Controller
     /**
      * Display the specified room details.
      */
-    public function show(Room $room)
+    public function show($id)
     {
+        $room = Room::findOrFail($id);
         return view('rooms.show', compact('room'));
     }
+    
 
     /**
      * Show the form for editing the specified room.

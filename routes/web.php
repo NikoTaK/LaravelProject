@@ -6,6 +6,7 @@ use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Room;
 use App\Models\Review;
+use App\Http\Controllers\ReviewController;
 
 // Welcome route
 Route::get('/', function () {
@@ -33,5 +34,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 // Room routes
 Route::resource('rooms', RoomController::class);
+Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
+
+
+Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
 
 require __DIR__ . '/auth.php';
