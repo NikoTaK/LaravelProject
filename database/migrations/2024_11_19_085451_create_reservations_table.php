@@ -9,17 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('reservations', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('room_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('check_in');
-            $table->date('check_out');
-            $table->timestamps();
-        });
-    }
+    public function up()
+{
+    Schema::create('reservations', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade');
+        $table->foreignId('room_id')->constrained()->onDelete('cascade');
+        $table->date('check_in');
+        $table->date('check_out');
+        $table->integer('guests');
+        $table->string('special_requests')->nullable();
+        $table->string('status')->default('Pending');
+        $table->timestamps();
+    });
+}
+
 
     /**
      * Reverse the migrations.

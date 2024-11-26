@@ -69,7 +69,7 @@
                     @if(session('success'))
                         <p class="text-green-600 mb-4">{{ session('success') }}</p>
                     @endif
-                    <form action="{{ route('reviews.store') }}" method="POST">
+                    <form action="{{ route('reviews.store', ['room' => $room->id]) }}" method="POST">
                         @csrf
                         <input type="hidden" name="room_id" value="{{ $room->id }}"> <!-- Pass the room_id -->
                         <div class="mb-4">

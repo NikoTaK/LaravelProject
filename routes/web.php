@@ -11,7 +11,7 @@ use App\Http\Controllers\ReviewController;
 // Welcome route
 Route::get('/', function () {
     $featuredRooms = Room::where('is_featured', true)->take(3)->get();
-    $latestReviews = collect([]); // Placeholder for reviews
+    $latestReviews = Review::latest()->take(5)->get(); // Fetch the latest 5 reviews
     return view('welcome', compact('featuredRooms', 'latestReviews'));
 })->name('home');
 
@@ -30,14 +30,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Reservation routes
     Route::get('/reservations/create', [ReservationController::class, 'create'])->name('reservations.create');
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    
+    // Review routes for authenticated users
+    Route::post('/rooms/{room}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 // Room routes
 Route::resource('rooms', RoomController::class);
-Route::get('/rooms/{room}', [RoomController::class, 'show'])->name('rooms.show');
 
-
+// Review routes for viewing reviews
 Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
-Route::post('/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('reviews.store');
 
 require __DIR__ . '/auth.php';

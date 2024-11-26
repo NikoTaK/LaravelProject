@@ -5,37 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\Room;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class ReservationController extends Controller
 {
     // Show the reservation form for a specific room
-    public function create($room_id)
+    public function create()
     {
-        // Fetch the room by its ID
-        $room = Room::findOrFail($room_id);
-
-        // Return the reservation form view with the room data
-        return view('reservations.create', compact('room'));
+        $rooms = Room::all(); // Retrieve all available rooms
+        return view('reservations.create', compact('rooms'));
     }
+    
 
     // Store a newly created reservation in the database
     public function store(Request $request)
     {
-        // Validate the reservation input
         $request->validate([
             'room_id' => 'required|exists:rooms,id',
-            'check_in' => 'required|date',
+            'check_in' => 'required|date|after_or_equal:today',
             'check_out' => 'required|date|after:check_in',
+            'guests' => 'required|integer|min:1',
+            'special_requests' => 'nullable|string|max:500',
         ]);
-
-        // Create a new reservation
-        $reservation = new Reservation();
-        $reservation->room_id = $request->room_id;
-        $reservation->check_in = $request->check_in;
-        $reservation->check_out = $request->check_out;
-        $reservation->save();
-
-        // Redirect to a confirmation page or the reservation's details page
-        return redirect()->route('reservations.show', $reservation->id);
+    
+        Reservation::create([
+            'user_id' => Auth::id(),
+            'room_id' => $request->room_id,
+            'check_in' => $request->check_in,
+            'check_out' => $request->check_out,
+            'guests' => $request->guests,
+            'special_requests' => $request->special_requests,
+            'status' => 'Pending', // Initial status
+        ]);
+    
+        return back()->with('success', 'Your reservation has been made successfully!');
     }
+    
 }
