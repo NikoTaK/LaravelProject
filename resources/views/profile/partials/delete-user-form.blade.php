@@ -1,4 +1,6 @@
-<section class="space-y-6">
+<script src="//unpkg.com/alpinejs" defer></script>
+
+<section class="space-y-6" x-data="{ showModal: false }">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Delete Account') }}
@@ -9,16 +11,22 @@
         </p>
     </header>
 
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+    <!-- Updated Delete Account Button -->
+    <button type="button" @click="showModal = true"
+        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors">
+        {{ __('Delete Account') }}
+    </button>
 
-    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
-            @csrf
-            @method('delete')
-
+    <!-- Delete Account Modal -->
+    <div x-show="showModal" x-cloak
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0">
+        <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
             <h2 class="text-lg font-medium text-gray-900">
                 {{ __('Are you sure you want to delete your account?') }}
             </h2>
@@ -27,29 +35,31 @@
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
             </p>
 
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+            <form method="post" action="{{ route('profile.destroy') }}" class="mt-6">
+                @csrf
+                @method('delete')
 
-                <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
-                />
+                <div class="mb-4">
+                    <label for="password" class="block text-sm font-medium text-gray-700">{{ __('Password') }}</label>
+                    <input type="password" id="password" name="password"
+                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    @error('password')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
-            </div>
+                <div class="flex justify-end mt-4">
+                    <button type="button" @click="showModal = false"
+                        class="bg-gray-300 text-black px-4 py-2 rounded-lg hover:bg-gray-400 transition-colors">
+                        {{ __('Cancel') }}
+                    </button>
 
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
-
-                <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
-                </x-danger-button>
-            </div>
-        </form>
-    </x-modal>
+                    <button type="submit"
+                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors ml-3">
+                        {{ __('Delete Account') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </section>

@@ -28,6 +28,7 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+        // Invalidate email verification if email address is changed.
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
@@ -50,11 +51,12 @@ class ProfileController extends Controller
 
         Auth::logout();
 
+        // Soft delete to allow for potential recovery of user data.
         $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/')->with('status', 'account-deleted');
     }
 }
