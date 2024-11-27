@@ -8,7 +8,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('reservations', function (Blueprint $table) {
-            $table->string('status')->after('special_requests')->default('Pending'); // Add the status column
+            if (!Schema::hasColumn('reservations', 'status')) {
+                $table->string('status')->default('Pending')->after('special_requests');
+            }
         });
     }
 

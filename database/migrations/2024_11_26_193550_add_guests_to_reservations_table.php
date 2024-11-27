@@ -8,8 +8,9 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('reservations', function (Blueprint $table) {
-            $table->integer('guests')->after('check_out')->default(1); // Add the guests column
-            $table->string('special_requests')->nullable()->after('guests'); // Add special_requests if needed
+            if (!Schema::hasColumn('reservations', 'special_requests')) {
+                $table->string('special_requests')->nullable()->after('guests');
+            }  
         });
     }
 

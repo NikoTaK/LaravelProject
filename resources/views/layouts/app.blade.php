@@ -94,11 +94,11 @@
 
 
 
-    <main>
+    <main class="flex-grow">
         {{ $slot }}
     </main>
 
-    <footer class="bg-gray-800 text-white">
+    <footer class="bg-gray-800 text-white mt-auto">
         <div class="container mx-auto px-6 py-4">
             <p class="text-center">© {{ date('Y') }} Casa Bella. All rights reserved.</p>
         </div>
