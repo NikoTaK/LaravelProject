@@ -1,4 +1,5 @@
-<script src="//unpkg.com/alpinejs" defer></script>
+{{-- <script src="//unpkg.com/alpinejs" defer></script> --}}
+<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
 <section class="space-y-6" x-data="{ showModal: false }">
     <header>
